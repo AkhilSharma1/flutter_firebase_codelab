@@ -25,6 +25,7 @@ class ChatScreen extends StatefulWidget {
 
 class ChatScreenState extends State<ChatScreen> {
   TextEditingController _textEditingController = new TextEditingController();
+  bool _isComposing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,23 +44,32 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildTextComposer() {
-    return new Row(children: <Widget>[
-      new Flexible(
-          child: new TextField(
-            controller: _textEditingController,
-            decoration: new InputDecoration.collapsed(
-                hintText: 'Enter text here'),
-            onSubmitted: _handleTextSubmitted,
-          )),
-      new IconButton(
-          icon: new Icon(Icons.send),
-          onPressed: () => _handleTextSubmitted(_textEditingController.text))
-    ]);
+    return new IconTheme(
+      data: new IconThemeData(color: Theme
+          .of(context)
+          .accentColor),
+      child: new Row(children: <Widget>[
+        new Flexible(
+            child: new TextField(
+              controller: _textEditingController,
+              decoration:
+              new InputDecoration.collapsed(hintText: 'Enter text here'),
+              onSubmitted: _handleTextSubmitted,
+            )),
+        new Container(
+            child: new IconButton(
+                icon: new Icon(Icons.send),
+                onPressed: () =>
+                _isComposing
+                    ? _handleTextSubmitted(_textEditingController.text)
+                    : null))
+      ]),
+    );
   }
-
 
   void _handleTextSubmitted(String text) {
     print('submitted called');
-
   }
+
+
 }
