@@ -24,7 +24,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class ChatScreenState extends State<ChatScreen> {
-
+  TextEditingController _textEditingController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +36,30 @@ class ChatScreenState extends State<ChatScreen> {
           new Divider(
             height: 1.0,
           ),
-          new Container(color: Colors.blue, child: _buildTextComposer())
+          new Container(child: _buildTextComposer())
         ],
       ),
     );
   }
 
   Widget _buildTextComposer() {
-    return new Row(
-        children: <Widget>[
-          new Text('Text composer')]
-    );
+    return new Row(children: <Widget>[
+      new Flexible(
+          child: new TextField(
+            controller: _textEditingController,
+            decoration: new InputDecoration.collapsed(
+                hintText: 'Enter text here'),
+            onSubmitted: _handleTextSubmitted,
+          )),
+      new IconButton(
+          icon: new Icon(Icons.send),
+          onPressed: () => _handleTextSubmitted(_textEditingController.text))
+    ]);
+  }
+
+
+  void _handleTextSubmitted(String text) {
+    print('submitted called');
+
   }
 }
