@@ -55,6 +55,7 @@ class ChatScreenState extends State<ChatScreen> {
               decoration:
               new InputDecoration.collapsed(hintText: 'Enter text here'),
               onSubmitted: _handleTextSubmitted,
+              onChanged: enableSendButton,
             )),
         new Container(
             child: new IconButton(
@@ -71,5 +72,7 @@ class ChatScreenState extends State<ChatScreen> {
     print('submitted called');
   }
 
-
+  void enableSendButton(String text) {
+    setState(() => _isComposing = text.length > 0);
+  }
 }
