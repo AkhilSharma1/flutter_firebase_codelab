@@ -44,34 +44,37 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildTextComposer() {
-    return new IconTheme(
-      data: new IconThemeData(color: Theme
-          .of(context)
-          .accentColor),
-      child: new Row(children: <Widget>[
-        new Flexible(
-            child: new TextField(
-              controller: _textEditingController,
-              decoration:
-              new InputDecoration.collapsed(hintText: 'Enter text here'),
-              onSubmitted: _handleTextSubmitted,
-              onChanged: enableSendButton,
-            )),
-        new Container(
-            child: new IconButton(
-                icon: new Icon(Icons.send),
-                onPressed: () =>
-                _isComposing
-                    ? _handleTextSubmitted(_textEditingController.text)
-                    : null))
-      ]),
+    return new Container(
+      margin: new EdgeInsets.symmetric(horizontal: 8.0),
+      child: new IconTheme(
+        data: new IconThemeData(color: Theme
+            .of(context)
+            .accentColor),
+        child: new Row(children: <Widget>[
+          new Flexible(
+              child: new TextField(
+                controller: _textEditingController,
+                decoration:
+                new InputDecoration.collapsed(hintText: 'Enter text here'),
+                onSubmitted: _handleTextSubmitted,
+                onChanged: enableSendButton,
+              )),
+          new Container(
+              margin: new EdgeInsets.symmetric(horizontal: 4.0),
+              child: new IconButton(
+                  icon: new Icon(Icons.send),
+                  onPressed: () =>
+                  _isComposing
+                      ? _handleTextSubmitted(_textEditingController.text)
+                      : null))
+        ]),
+      ),
     );
   }
 
   void _handleTextSubmitted(String text) {
     _textEditingController.clear();
     setState(() => _isComposing = false);
-
   }
 
   void enableSendButton(String text) {
