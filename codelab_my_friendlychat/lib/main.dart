@@ -69,7 +69,9 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   void _handleTextSubmitted(String text) {
-    print('submitted called');
+    _textEditingController.clear();
+    setState(() => _isComposing = false);
+
   }
 
   void enableSendButton(String text) {
