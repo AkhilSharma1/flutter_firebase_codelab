@@ -27,6 +27,7 @@ class ChatScreen extends StatefulWidget {
 class ChatScreenState extends State<ChatScreen> {
   TextEditingController _textEditingController = new TextEditingController();
   bool _isComposing = false;
+  final List<ChatMessage> _messages = <ChatMessage>[];
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,6 @@ class ChatScreenState extends State<ChatScreen> {
           new Divider(
             height: 1.0,
           ),
-          new ChatMessage(text: "Test"),
           new Container(child: _buildTextComposer())
         ],
       ),
@@ -77,6 +77,10 @@ class ChatScreenState extends State<ChatScreen> {
   void _handleTextSubmitted(String text) {
     _textEditingController.clear();
     setState(() => _isComposing = false);
+
+    var chatMessage = new ChatMessage(text: text);
+    print(chatMessage);
+    setState(() => _messages.insert(0, chatMessage));
   }
 
   void enableSendButton(String text) {
