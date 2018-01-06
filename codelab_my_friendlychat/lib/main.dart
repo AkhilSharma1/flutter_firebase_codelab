@@ -35,7 +35,13 @@ class ChatScreenState extends State<ChatScreen> {
       appBar: new AppBar(title: new Text('Friendly Chat')),
       body: new Column(
         children: <Widget>[
-          new Expanded(child: new Center(child: new Text('Show List Here'))),
+          new Flexible(
+              child: new ListView.builder(
+                itemBuilder: (_, int index) => _messages[index],
+                itemCount: _messages.length,
+                reverse: true,
+                padding: new EdgeInsets.all(8.0),
+              )),
           new Divider(
             height: 1.0,
           ),
@@ -96,33 +102,36 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      new Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new Container(
-            margin: new EdgeInsets.only(right: 16.0),
-            child: new CircleAvatar(
-              child: new Text(_name[0]),
+      new Container(
+        margin: new EdgeInsets.symmetric(vertical: 10.0),
+        child: new Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Container(
+              margin: new EdgeInsets.only(right: 16.0),
+              child: new CircleAvatar(
+                child: new Text(_name[0]),
+              ),
             ),
-          ),
-          new Expanded(
-            //Add Expanded to allow text to be wrapped to new line.
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Text(
-                    _name,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .subhead,
-                  ),
-                  new Container(
-                    margin: new EdgeInsets.only(top: 5.0),
-                    child: new Text("message"),
-                  )
-                ],
-              ))
-        ],
+            new Expanded(
+              //Add Expanded to allow text to be wrapped to new line.
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Text(
+                      _name,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .subhead,
+                    ),
+                    new Container(
+                      margin: new EdgeInsets.only(top: 5.0),
+                      child: new Text(text),
+                    )
+                  ],
+                ))
+          ],
+        ),
       );
 }
