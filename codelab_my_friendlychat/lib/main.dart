@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 void main() => runApp(new FriendlyChat());
 
@@ -37,6 +38,7 @@ class ChatScreenState extends State<ChatScreen> {
           new Divider(
             height: 1.0,
           ),
+          new ChatMessage(text: "Test"),
           new Container(child: _buildTextComposer())
         ],
       ),
@@ -80,4 +82,43 @@ class ChatScreenState extends State<ChatScreen> {
   void enableSendButton(String text) {
     setState(() => _isComposing = text.length > 0);
   }
+}
+
+class ChatMessage extends StatelessWidget {
+  ChatMessage({@required this.text});
+
+  final String text;
+  static const String _name = 'EdSigma';
+
+  @override
+  Widget build(BuildContext context) =>
+      new Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Container(
+            margin: new EdgeInsets.only(right: 16.0),
+            child: new CircleAvatar(
+              child: new Text(_name[0]),
+            ),
+          ),
+          new Expanded(
+            //Add Expanded to allow text to be wrapped to new line.
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  new Text(
+                    _name,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .subhead,
+                  ),
+                  new Container(
+                    margin: new EdgeInsets.only(top: 5.0),
+                    child: new Text("message"),
+                  )
+                ],
+              ))
+        ],
+      );
 }
