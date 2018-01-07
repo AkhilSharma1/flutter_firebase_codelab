@@ -24,7 +24,7 @@ class ChatScreen extends StatefulWidget {
   }
 }
 
-class ChatScreenState extends State<ChatScreen> {
+class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   TextEditingController _textEditingController = new TextEditingController();
   bool _isComposing = false;
   final List<ChatMessage> _messages = <ChatMessage>[];
@@ -84,54 +84,70 @@ class ChatScreenState extends State<ChatScreen> {
     _textEditingController.clear();
     setState(() => _isComposing = false);
 
-    var chatMessage = new ChatMessage(text: text);
+    var chatMessage = new ChatMessage(
+        text: text,
+        animationController: new AnimationController(
+            vsync: this, duration: new Duration(milliseconds: 200)));
     print(chatMessage);
     setState(() => _messages.insert(0, chatMessage));
+    chatMessage.animationController.forward();
   }
 
   void enableSendButton(String text) {
     setState(() => _isComposing = text.length > 0);
   }
+
+  @override
+  void dispose() {
+    for (ChatMessage message in _messages)
+      message.animationController.dispose();
+    super.dispose();
+  }
 }
 
 class ChatMessage extends StatelessWidget {
-  ChatMessage({@required this.text});
+  ChatMessage({@required this.text, @required this.animationController});
 
+  final AnimationController animationController;
   final String text;
   static const String _name = 'EdSigma';
 
   @override
   Widget build(BuildContext context) =>
-      new Container(
-        margin: new EdgeInsets.symmetric(vertical: 10.0),
-        child: new Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Container(
-              margin: new EdgeInsets.only(right: 16.0),
-              child: new CircleAvatar(
-                child: new Text(_name[0]),
+      new SizeTransition(
+        sizeFactor: new CurvedAnimation(
+            parent: animationController, curve: Curves.easeOut),
+        child: new Container(
+          margin: new EdgeInsets.symmetric(vertical: 10.0),
+          child: new Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Container(
+                margin: new EdgeInsets.only(right: 16.0),
+                child: new CircleAvatar(
+                  child: new Text(_name[0]),
+                ),
               ),
-            ),
-            new Expanded(
-              //Add Expanded to allow text to be wrapped to new line.
-                child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new Text(
-                      _name,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .subhead,
-                    ),
-                    new Container(
-                      margin: new EdgeInsets.only(top: 5.0),
-                      child: new Text(text),
-                    )
-                  ],
-                ))
-          ],
+              new Expanded(
+                //Add Expanded to allow text to be wrapped to new line.
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new Text(
+                        _name,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .subhead,
+                      ),
+                      new Container(
+                        margin: new EdgeInsets.only(top: 5.0),
+                        child: new Text(text),
+                      )
+                    ],
+                  ))
+            ],
+          ),
         ),
       );
 }
