@@ -105,13 +105,13 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   }
 
   void _sendMessage({String text}) {
-    print('bubbbbbaaaaaaaaaaaaa');
     var chatMessage = new ChatMessage(
         text: text,
         animationController: new AnimationController(
             vsync: this, duration: new Duration(milliseconds: 200)));
     setState(() => _messages.insert(0, chatMessage));
     chatMessage.animationController.forward();
+    analytics.logEvent(name: 'send_message');
   }
 
   void enableSendButton(String text) {
