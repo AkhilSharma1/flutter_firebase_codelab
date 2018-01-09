@@ -90,6 +90,11 @@ class ChatScreenState extends State<ChatScreen> {
       child: new IconTheme(
         data: new IconThemeData(color: Theme.of(context).accentColor),
         child: new Row(children: <Widget>[
+          new Container(
+            margin: new EdgeInsets.symmetric(horizontal: 4.0),
+            child: new IconButton(
+                icon: new Icon(Icons.photo_camera), onPressed: () {}),
+          ),
           new Flexible(
               child: new TextField(
             controller: _textEditingController,
@@ -119,7 +124,6 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   void _sendMessage({String text}) {
-
     reference.push().set({
       'text': text,
       'senderName': googleSignIn.currentUser.displayName,
