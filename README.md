@@ -1,5 +1,5 @@
 # codelab_my_friendlychat
 
-FriendlyChat codelab project for &#x27;Building Beautiful UIs&#x27;
+This consist of two projects. The first one is the app with no firebase support while the second one is connected to firebase.
 
 
